@@ -1,5 +1,9 @@
 package com.yyw.thread;
 
+import com.sun.corba.se.spi.orbutil.threadpool.WorkQueue;
+
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * 线程可见性
  * 过期数据
@@ -23,6 +27,7 @@ public class NoVisibility {
         new ReadThread().start();
         number = 1;
         ready = true;
+        ThreadPoolExecutor
     }
 
 }
