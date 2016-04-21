@@ -27,7 +27,6 @@ public class NoVisibility {
         new ReadThread().start();
         number = 1;
         ready = true;
-        ThreadPoolExecutor
     }
 
 }

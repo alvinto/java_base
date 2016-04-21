@@ -26,10 +26,11 @@ public class DeadLock implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                synchronized(o2){
+                    System.out.println("获取o2，执行");
+                }
             }
-            synchronized(o2){
-                System.out.println("获取o2，执行");
-            }
+
         }else{
             synchronized (o2){
                 try {
@@ -37,10 +38,11 @@ public class DeadLock implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                synchronized(o1){
+                    System.out.println("获取o1，执行");
+                }
             }
-            synchronized(o1){
-                System.out.println("获取o1，执行");
-            }
+
         }
     }
 
