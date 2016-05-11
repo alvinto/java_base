@@ -6,70 +6,137 @@ package com.yyw.sort;
  */
 public class Sort {
     /**
-     * 直接插入排序
-     *  插入排序 适合少量元素的数组
-     *特点：stable sort、In-place sort
-     最优复杂度：当输入数组就是排好序的时候，复杂度为O(n)，而快速排序在这种情况下会产生O(n^2)的复杂度。
-     最差复杂度：当输入数组为倒序时，复杂度为O(n^2)
-     插入排序比较适合用于“少量元素的数组”。
-     循环不变式：在每次循环开始前，A[1...i-1]包含了原来的A[1...i-1]的元素，并且已排序。
-     初始：i=2，A[1...1]已排序，成立。
-     保持：在迭代开始前，A[1...i-1]已排序，而循环体的目的是将A[i]插入A[1...i-1]中，使得A[1...i]排序，因此在下一轮迭代开       始前，i++，因此现在A[1...i-1]排好序了，因此保持循环不变式。
-     终止：最后i=n+1，并且A[1...n]已排序，而A[1...n]就是整个数组，因此证毕。
-     * @param originalArray
+     * 插入排序
+     * 数组有n个元素
+     * 假设n-1个元素已经从小到大排好序了，用第n个元素分别于n-1个元素比较，插入到比n打的前面，后面的元素后移
+     * @param arrs
      * @return
      */
-    private static int[] insertSort(int[] originalArray){
-        for(int i = 1;i<originalArray.length;i++){
-            int temp = originalArray[i];
-            for(int j = i-1;j>=0;j--){
-                if(originalArray[j] > temp){
-                    originalArray[j+1] = originalArray[j];
-                    originalArray[j] = temp;
-                }
+    public static int[] insertSort(int[] arrs){
+        for(int i=1;i<arrs.length-1;i++){
+            int temp = arrs[i];
+            int j = i-1;
+            for(;j>=0&&arrs[j]>temp;j--){//将大于temp的值整体后移
+                arrs[j+1] = arrs[j];
             }
+            arrs[j+1] = temp;
         }
-        return originalArray;
+        return arrs;
     }
 
     /**
-     * 选择排序
-     * 将要排序的数组分为两部分，一部分已排序，一部分未排序；
-     * 从后端未排序中选择一个最小值，放入前端已排序最后面
-     * 特性：In-place sort，unstable sort。
-     思想：每次找一个最小值。
-     最好情况时间：O(n^2)。
-     最坏情况时间：O(n^2)。
+     * 选择排序 在要排序的数组中选择一个最小的数与第一个交换；
+     * 然后在剩下的数中选一个最小的与第二个交换；
+     * 如此循环到倒数第二个数与最后一个数比较
+     * @param arrs
      * @return
      */
-    private static int[] selSort(int[] originalArray){
-        for(int i = 0;i<originalArray.length;i++){
-            int m = i;
-            for(int j = i+1;j<originalArray.length;j++){
-                if(originalArray[m] > originalArray[j]){
-                    m = j;
+    public static int[] selectSort(int[] arrs){
+        int position=0;
+        for(int i =0;i<arrs.length-1;i++){
+            int j = i+1;
+            int temp = arrs[i];
+            position = i;
+            for(;j<arrs.length-1;j++){
+                if(arrs[j]<temp){
+                    temp = arrs[j];
+                    position = j;
                 }
             }
-            if(m != i){
-                int temp = originalArray[i];
-                originalArray[i] = originalArray[m];
-                originalArray[m] = temp;
-            }
+            arrs[position] = arrs[i];
+            arrs[i] = temp;
         }
-        return originalArray;
+        return arrs;
     }
 
+    /**
+     * 冒泡排序
+     * 每次比较相邻的两个数，小数上浮
+     * 第二次从第二个元素之后的数组比较相邻的两个数
+     * @param args
+     * @return
+     */
+    public static int[] bubbleSort(int[] args){
+        int temp;
+        for(int i = 0;i<args.length-1;i++){
+            for(int j=i;j<args.length-1;j++){
+                if(args[j] > args[i]){
+                    temp = args[i];
+                    args[i] = args[j];
+                    args[j] = temp;
+                }
+            }
+        }
+        return args;
+    }
+
+    /**
+     * 快速排序
+     * @param args
+     * @return
+     */
+    public static int[] quickSort(int[] args){
+        quick(args);
+        return args;
+    }
+    private static void quick(int[] args){
+        if(args.length > 0){
+            _quickSort(args,0,args.length-1);
+        }
+    }
+
+    private static void _quickSort(int[] args,int low,int high){
+        if(low < high){
+            int middle = getMiddle(args,low,high);
+
+            _quickSort(args,0,middle-1);
+            _quickSort(args,middle+1,high);
+        }
+    }
+
+    private static int getMiddle(int[] args,int low,int high){
+        int temp = args[low];//数组的第一个作为中轴
+        while(low < high){
+            while(low < high && args[high]>temp){
+                high -- ;
+            }
+
+            args[low] = args[high];//比中轴小的记录移到低端
+
+            while(low<high && args[low] < temp){
+                low ++;
+            }
+            args[high] = args[low];
+        }
+        args[low] = temp;
+        return low;
+    }
 
     public static void main(String[] args) {
         int[] temp = {5,1,6,7,4,2,3};
-        int[] insertSortTemp = Sort.insertSort(temp);
-        int[] selSortTemp = Sort.selSort(temp);
-        for(int i : insertSortTemp){
+
+        for(int i : temp){
             System.out.print(i+" ");
         }
         System.out.println();
-        for(int i : selSortTemp){
+        for(int i : Sort.insertSort(temp)){
             System.out.print(i + " ");
         }
+        System.out.println("-------插入排序--------");
+
+        for(int i : Sort.selectSort(temp)){
+            System.out.print(i + " ");
+        }
+        System.out.println("-------选择排序--------");
+
+        for(int i : Sort.bubbleSort(temp)){
+            System.out.print(i + " ");
+        }
+        System.out.println("-------冒泡排序--------");
+
+        for(int i : Sort.quickSort(temp)){
+            System.out.print(i + " ");
+        }
+        System.out.println("-------快速排序--------");
     }
 }
