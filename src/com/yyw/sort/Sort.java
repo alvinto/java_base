@@ -13,7 +13,7 @@ public class Sort {
      * @return
      */
     public static int[] insertSort(int[] arrs){
-        for(int i=1;i<arrs.length-1;i++){
+        for(int i=1;i<arrs.length;i++){
             int temp = arrs[i];
             int j = i-1;
             for(;j>=0&&arrs[j]>temp;j--){//将大于temp的值整体后移
@@ -33,11 +33,11 @@ public class Sort {
      */
     public static int[] selectSort(int[] arrs){
         int position=0;
-        for(int i =0;i<arrs.length-1;i++){
+        for(int i =0;i<arrs.length;i++){
             int j = i+1;
             int temp = arrs[i];
             position = i;
-            for(;j<arrs.length-1;j++){
+            for(;j<arrs.length;j++){
                 if(arrs[j]<temp){
                     temp = arrs[j];
                     position = j;
@@ -58,9 +58,9 @@ public class Sort {
      */
     public static int[] bubbleSort(int[] args){
         int temp;
-        for(int i = 0;i<args.length-1;i++){
-            for(int j=i;j<args.length-1;j++){
-                if(args[j] > args[i]){
+        for(int i = 0;i<args.length;i++){
+            for(int j=i;j<args.length;j++){
+                if(args[j] < args[i]){
                     temp = args[i];
                     args[i] = args[j];
                     args[j] = temp;
